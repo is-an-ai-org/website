@@ -1,0 +1,282 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  --bp-bg: #fbfbf6;
+  --bp-paper: #f6f4ec;
+  --bp-ink: #1e5fa8;
+  --bp-ink-soft: #4d8bc9;
+  --bp-ink-faint: #b9d2e8;
+  --bp-grid: #d4e3f1;
+  --bp-grid-strong: #b9d2e8;
+  --bp-accent: #d9542a;
+  --bp-accent-2: #2f8c4d;
+  --bp-graphite: #2a2a2a;
+  --bp-yellow: #f6e58d;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--bp-bg);
+    color: var(--bp-ink);
+    font-family:
+      "Inter",
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Helvetica,
+      Arial,
+      sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--bp-ink);
+    color: var(--bp-paper);
+  }
+
+  /* Remove webkit input clear/cancel; we want the spartan look */
+  input[type="text"]::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+/* === Blueprint paper: warm grid like draft paper === */
+.bp-paper {
+  position: relative;
+  background:
+    linear-gradient(var(--bp-grid) 1px, transparent 1px) 0 0 / 100% 16px,
+    linear-gradient(90deg, var(--bp-grid) 1px, transparent 1px) 0 0 / 16px 100%,
+    linear-gradient(var(--bp-grid-strong) 1px, transparent 1px) 0 0 / 100% 80px,
+    linear-gradient(90deg, var(--bp-grid-strong) 1px, transparent 1px) 0 0 /
+      80px 100%,
+    var(--bp-paper);
+}
+
+.bp-paper.no-grid,
+.bp-paper-flat {
+  background: var(--bp-paper);
+}
+
+/* === Outer drafting frame with corner ticks === */
+.bp-frame {
+  position: absolute;
+  inset: 18px;
+  border: 1.5px solid var(--bp-ink);
+  pointer-events: none;
+  z-index: 2;
+}
+.bp-frame::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 0.75px solid var(--bp-ink-soft);
+}
+
+.bp-corner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--bp-ink);
+  z-index: 3;
+  pointer-events: none;
+}
+.bp-corner.tl {
+  top: 18px;
+  left: 18px;
+  border-right: none;
+  border-bottom: none;
+}
+.bp-corner.tr {
+  top: 18px;
+  right: 18px;
+  border-left: none;
+  border-bottom: none;
+}
+.bp-corner.bl {
+  bottom: 18px;
+  left: 18px;
+  border-right: none;
+  border-top: none;
+}
+.bp-corner.br {
+  bottom: 18px;
+  right: 18px;
+  border-left: none;
+  border-top: none;
+}
+
+/* === Title block (bottom-right cartouche) === */
+.bp-titleblock {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  border: 1.5px solid var(--bp-ink);
+  background: var(--bp-paper);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--bp-ink);
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 280px;
+}
+.bp-titleblock > div {
+  border: 0.5px solid var(--bp-ink-soft);
+  padding: 6px 10px;
+  line-height: 1.3;
+}
+.bp-titleblock .label {
+  font-size: 8px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  letter-spacing: 0.1em;
+}
+.bp-titleblock .val {
+  font-family: "Architects Daughter", cursive;
+  font-size: 14px;
+  color: var(--bp-ink);
+}
+.bp-titleblock .span2 {
+  grid-column: span 2;
+}
+
+/* === Annotation tape (section label) === */
+.bp-tape {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--bp-ink);
+  text-transform: uppercase;
+  display: inline-block;
+  border-top: 1.5px solid var(--bp-ink);
+  border-bottom: 1.5px solid var(--bp-ink);
+  padding: 4px 10px;
+}
+
+/* === Sticky note === */
+.bp-sticky {
+  background: var(--bp-yellow);
+  padding: 10px 14px;
+  font-family: "Architects Daughter", cursive;
+  font-size: 13px;
+  color: #5a4a10;
+  box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* === Snap corners on cards === */
+.snap-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--bp-ink);
+  background: var(--bp-paper);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* === Tag chip === */
+.bp-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--bp-ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  background: var(--bp-paper);
+  color: var(--bp-ink);
+  letter-spacing: 0.05em;
+}
+
+/* === Stamp text (rotated) === */
+.bp-stamp {
+  font-family: "Special Elite", monospace;
+  color: var(--bp-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  border: 2px solid var(--bp-accent);
+  display: inline-block;
+  padding: 4px 10px;
+  transform: rotate(-4deg);
+  opacity: 0.85;
+}
+
+/* === Blueprint button (offset shadow) === */
+.bp-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Architects Daughter", cursive;
+  font-weight: 700;
+  border: 2px solid var(--bp-ink);
+  background: var(--bp-paper);
+  color: var(--bp-ink);
+  padding: 10px 22px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--bp-ink);
+  transition:
+    transform 80ms ease-out,
+    box-shadow 80ms ease-out;
+}
+.bp-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--bp-ink);
+}
+.bp-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--bp-ink);
+}
+.bp-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: 3px 3px 0 var(--bp-ink-faint);
+}
+
+.bp-btn-accent {
+  background: var(--bp-accent);
+  color: #fff;
+  box-shadow: 5px 5px 0 var(--bp-ink);
+}
+.bp-btn-accent:hover:not(:disabled) {
+  box-shadow: 6px 6px 0 var(--bp-ink);
+}
+.bp-btn-accent:active:not(:disabled) {
+  box-shadow: 2px 2px 0 var(--bp-ink);
+}
+
+.bp-btn-graphite {
+  background: var(--bp-graphite);
+  color: #fff;
+}
+
+/* === Wavy underline for headline accent === */
+.bp-underline-wavy {
+  text-decoration: underline wavy;
+  text-decoration-color: var(--bp-accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+/* === Cursor blink === */
+@keyframes bp-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.bp-cursor {
+  display: inline-block;
+  width: 3px;
+  background: var(--bp-accent);
+  animation: bp-blink 1s steps(2) infinite;
+  vertical-align: -0.15em;
+}
