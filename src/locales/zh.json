@@ -44,6 +44,7 @@
     "buyMeACoffee": "请我喝杯咖啡"
   },
   "footer": {
+    "terms": "服务条款（英文）",
     "tagline": "为 AI 项目提供免费的 {{domain}} 子域名。",
     "contributeGithub": "在 GitHub 上贡献",
     "openSource": "开源项目。MIT 许可证。",
@@ -63,6 +64,7 @@
     "continueWithGithub": "使用 GitHub 继续"
   },
   "createModal": {
+    "termsNotice": "创建子域名前，请阅读<terms>服务条款（英文，在新标签页中打开）</terms>。创建子域名即表示您同意这些条款。连续至少三个月未使用或用于犯罪活动的子域名可能会被删除。",
     "title": "创建子域名",
     "subdomainName": "子域名",
     "placeholder": "我的项目",

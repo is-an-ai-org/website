@@ -57,6 +57,7 @@ const generateSitemapXML = async (blogPosts) => {
     { url: "/docs", priority: 0.8, changefreq: "weekly" },
     { url: "/examples", priority: 0.8, changefreq: "weekly" },
     { url: "/blog", priority: 0.9, changefreq: "daily" },
+    { url: "/terms", priority: 0.3, changefreq: "yearly", lastmod: "2026-09-05" },
   ];
 
   const blogUrls = blogPosts.map((post) => ({

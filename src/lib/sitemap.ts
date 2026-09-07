@@ -42,6 +42,12 @@ const STATIC_PAGES: SitemapUrl[] = [
     changefreq: "daily",
     priority: 0.9,
   },
+  {
+    url: "/terms",
+    lastmod: "2026-09-05",
+    changefreq: "yearly",
+    priority: 0.3,
+  },
 ];
 
 export const generateSitemap = async (): Promise<string> => {

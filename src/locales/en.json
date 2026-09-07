@@ -44,6 +44,7 @@
     "buyMeACoffee": "Buy me a coffee"
   },
   "footer": {
+    "terms": "Terms of Service",
     "tagline": "Free {{domain}} subdomains for AI projects.",
     "contributeGithub": "Contribute on GitHub",
     "openSource": "Open source. MIT licensed.",
@@ -63,6 +64,7 @@
     "continueWithGithub": "Continue with GitHub"
   },
   "createModal": {
+    "termsNotice": "Please read the <terms>Terms of Service (opens in a new tab)</terms> before creating a subdomain. By creating a subdomain, you agree to these terms. Subdomains unused for at least three consecutive months or used for criminal activity may be deleted.",
     "title": "Create Subdomain",
     "subdomainName": "Subdomain Name",
     "placeholder": "my-awesome-project",

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { GITHUB_REPOSITORY_URL, DOMAIN_SUFFIX } from "@/lib/constants";
 
 const Footer = () => {
@@ -32,6 +33,9 @@ const Footer = () => {
         <div className="mt-6 pt-4 border-t border-dashed border-bp-ink/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 font-mono text-[11px] text-bp-inkSoft tracking-[0.05em]">
           <p>{t("footer.openSource")}</p>
           <div className="flex flex-wrap items-center gap-4">
+            <Link to="/terms" className="underline hover:text-bp-accent">
+              {t("footer.terms")}
+            </Link>
             <a
               href="mailto:security@is-an.ai"
               className="underline hover:text-bp-accent"

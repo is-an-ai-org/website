@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import DocsPage from "./pages/DocsPage";
 import ExamplesPage from "./pages/ExamplesPage";
+import TermsPage from "./pages/TermsPage";
 import BlogIndex from "./pages/blog";
 import BlogPost from "./pages/blog/[slug]";
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route path="/docs" element={<DocsPage />} />
         <Route path="/examples" element={<ExamplesPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/blog" element={<BlogIndex />} />
         <Route path="/blog/:slug" element={<BlogPost />} />
       </Routes>

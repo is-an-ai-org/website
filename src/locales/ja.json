@@ -44,6 +44,7 @@
     "buyMeACoffee": "コーヒーをおごる"
   },
   "footer": {
+    "terms": "利用規約（英語）",
     "tagline": "AIプロジェクト向けの無料 {{domain}} サブドメイン。",
     "contributeGithub": "GitHubで貢献する",
     "openSource": "オープンソース。MITライセンス。",
@@ -63,6 +64,7 @@
     "continueWithGithub": "GitHubでログイン"
   },
   "createModal": {
+    "termsNotice": "サブドメインを作成する前に、<terms>利用規約（英語・新しいタブで開きます）</terms>をお読みください。サブドメインを作成すると、利用規約に同意したものとします。3か月以上継続して利用されていない、または犯罪に利用されているサブドメインは削除される場合があります。",
     "title": "サブドメインを作成",
     "subdomainName": "サブドメイン名",
     "placeholder": "私のプロジェクト",

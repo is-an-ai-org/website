@@ -18,35 +18,42 @@ export interface BlogPostMeta {
 
 // Blog posts data - this will be the"database" for now
 const BLOG_POSTS_DATA = {
-  "flagged-on-github": {
+  "github-flag-no-reason": {
     title:
-      "GitHub flagged our organization two weeks ago. I still don't know why.",
+      "GitHub puts a 'flagged' banner on every page I visit. Three weeks now.",
     description:
-      "A timeline of the flag, the broken services, and the support ticket that has been sitting open for two weeks.",
+      "A timeline of the flag, the broken services, and the support ticket that has been sitting open for three weeks.",
     date: "2026-04-30",
     author: "Dori",
     tags: ["incident", "github", "open-source"],
-    content: `# GitHub flagged our organization two weeks ago. I still don't know why.
+    content: `# GitHub puts a 'flagged' banner on every page I visit. Three weeks now.
 
-![The is-an-ai organization has been flagged.](/blog/flagged-on-github/banner.png)
+![The is-an-ai organization has been flagged.](/blog/github-flag-no-reason/banner.png)
 
-Two weeks ago, on April 20, 2026, I opened GitHub and saw this banner across every page I visited — not just the org page, but every repository I clicked through:
+This banner has been at the top of every GitHub page I visit while logged in for three weeks — not only on the flagged org's pages, but on every repository, every organization I belong to, every part of the GitHub UI.
 
 > **The is-an-ai organization has been flagged.**
 >
 > Because of that, your organization is hidden from the public. If you believe this is a mistake, contact support to have your organization's status reviewed.
 
-\`is-an-ai\` is the GitHub organization behind [is-an.ai](https://is-an.ai), a small open-source service that gives developers free subdomains under \`*.is-an.ai\`. The model is the same one [is-a.dev](https://is-a.dev) has been using on GitHub for years.
+GitHub gave no reason. The support ticket I filed the same day still has no human response.
 
-Two weeks later, I still don't know why we were flagged.
+## The organization
 
-## What broke
+\`is-an-ai\` is the GitHub organization behind [is-an.ai](https://is-an.ai), an open-source service that gives developers free subdomains under \`*.is-an.ai\`. Contributors submit a JSON record file via PR, a GitHub Action validates it, a bot merges it, and a self-hosted PowerDNS picks up merged records. This is the same model [is-a.dev](https://is-a.dev) has used on GitHub for years.
 
-The moment the flag landed, three things broke at once:
+## Impact
 
-- The org page and all our repositories started returning **404 to anyone not signed in as a member**.
-- **OAuth login** stopped working. The OAuth App is owned by the flagged org.
-- **Every GitHub Action** in the org stopped firing, so the CI-driven DNS pipeline stopped accepting new registrations.
+The moment the flag landed:
+
+- The org page and every repository started returning **404 to anyone not signed in as a member**.
+- **OAuth login stopped working** — the OAuth App is owned by the flagged org, so users can no longer sign in to is-an.ai.
+- **Every GitHub Action in the org stopped firing**, so new subdomain registrations from the website and CLI fail at the merge step.
+- **Existing subdomains still resolve**, because DNS lives on our own PowerDNS rather than GitHub.
+
+We had migrated the API and database off Cloudflare to AWS earlier this month, so the data plane is fine. The control plane is the part stuck on GitHub.
+
+## The support ticket
 
 I contacted GitHub Support the same day. Here is the ticket I filed, verbatim:
 
@@ -64,21 +71,7 @@ I contacted GitHub Support the same day. Here is the ticket I filed, verbatim:
 >
 > We are committed to following GitHub's Terms of Service and are ready to take any necessary corrective actions.
 
-Two weeks later, the only response I have received is the auto-generated ticket confirmation.
-
-## What is-an.ai actually does
-
-A user submits a small JSON record file to claim a subdomain. They can do it by hand via PR, or through our website / CLI which uses OAuth and a GitHub App to do the same thing under the hood. A GitHub Action validates the record. A bot merges it. A self-hosted PowerDNS picks up merged records and propagates DNS.
-
-The shape is identical to is-a.dev. The"use a public Git repo as the source of truth for free subdomain records" pattern has been the standard way to run a service like this for years.
-
-## What is broken right now
-
-- **Existing users cannot sign in.** OAuth depends on the flagged org.
-- **New registrations through the website and CLI are blocked** at the merge step.
-- **Existing subdomains still resolve**, because DNS lives on our own PowerDNS rather than GitHub.
-
-We had migrated the API and database off Cloudflare to AWS earlier this month, so the data plane is fine. The control plane is the part stuck on GitHub.
+Three weeks later, the only response I have received is the auto-generated ticket confirmation.
 
 ## Links
 

@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { CreateSubdomainRequest, DNSRecord } from "@/types/api";
 import { useSubdomainAvailability } from "@/hooks/api/useSubdomains";
 import { DOMAIN_SUFFIX } from "@/lib/constants";
@@ -624,6 +624,22 @@ const CreateSubdomainModal = NiceModal.create<CreateSubdomainModalProps>(
                 </div>
               </div>
             )}
+
+            <p className="text-sm text-bp-ink leading-relaxed">
+              <Trans
+                i18nKey="createModal.termsNotice"
+                components={{
+                  terms: (
+                    <a
+                      href="/terms"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-2 hover:text-bp-accent"
+                    />
+                  ),
+                }}
+              />
+            </p>
 
             {/* Submit Button */}
             <div className="flex gap-3 pt-4">
