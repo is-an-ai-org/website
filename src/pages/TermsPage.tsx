@@ -89,6 +89,11 @@ export default function TermsPage() {
                 we may act without advance notice and will explain the action
                 afterward where legally permitted.
               </p>
+              <p>
+                We may suspend or block an account that repeatedly registers or
+                attempts to register subdomains used for criminal activity or
+                other serious violations of these terms.
+              </p>
             </section>
 
             <section className="space-y-3">
