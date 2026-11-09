@@ -152,6 +152,10 @@ class ApiClient {
     return this.request<Subdomain[]>(API_ENDPOINTS.MY_DOMAINS);
   }
 
+  async getMySubdomainLimit(): Promise<{ limit: number }> {
+    return this.request<{ limit: number }>(API_ENDPOINTS.MY_DOMAIN_LIMIT);
+  }
+
   async getSubdomainById(id: string): Promise<Subdomain> {
     return this.request<Subdomain>(API_ENDPOINTS.DOMAIN_BY_ID(id));
   }

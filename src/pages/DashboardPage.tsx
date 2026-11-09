@@ -5,6 +5,7 @@ import NiceModal from "@ebay/nice-modal-react";
 import { useAuth } from "@/hooks/api/useAuth";
 import {
   useMySubdomains,
+  useMySubdomainLimit,
   useCreateSubdomain,
   useUpdateSubdomain,
   useDeleteSubdomain,
@@ -19,7 +20,7 @@ import {
 import Toast from "@/components/Toast";
 import {
   DOMAIN_SUFFIX,
-  MAX_SUBDOMAINS_PER_USER,
+  DEFAULT_SUBDOMAIN_LIMIT,
   REGISTRAR_AT_CAPACITY,
 } from "@/lib/constants";
 import {
@@ -73,6 +74,7 @@ const DashboardPage = () => {
   const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
 
   const { data: subdomains = [], isLoading, error } = useMySubdomains();
+  const { data: subdomainQuota } = useMySubdomainLimit();
   const createMutation = useCreateSubdomain();
   const updateMutation = useUpdateSubdomain();
   const deleteMutation = useDeleteSubdomain();
@@ -111,9 +113,13 @@ const DashboardPage = () => {
     setToast((prev) => ({ ...prev, isVisible: false }));
   };
 
-  const hasReachedLimit = subdomains.length >= MAX_SUBDOMAINS_PER_USER;
+  const subdomainLimit = subdomainQuota?.limit ?? DEFAULT_SUBDOMAIN_LIMIT;
+  const subdomainCount = subdomains.filter(
+    ({ subdomainName }) => !subdomainName.startsWith("_"),
+  ).length;
+  const hasReachedLimit = subdomainCount >= subdomainLimit;
   const registrarAtCapacity = REGISTRAR_AT_CAPACITY === true;
-  const isLegacyUser = subdomains.length > MAX_SUBDOMAINS_PER_USER;
+  const isLegacyUser = subdomainCount > subdomainLimit;
 
   const handleCreateSubdomain = async (data: CreateSubdomainRequest) => {
     if (registrarAtCapacity) {
@@ -122,7 +128,7 @@ const DashboardPage = () => {
     }
     if (hasReachedLimit) {
       showToast(
-        t("dashboard.maxSubdomains", { max: MAX_SUBDOMAINS_PER_USER }),
+        t("dashboard.maxSubdomains", { max: subdomainLimit }),
         "error",
       );
       return;
@@ -205,7 +211,7 @@ const DashboardPage = () => {
   const showCreateModal = () => {
     if (hasReachedLimit) {
       showToast(
-        t("dashboard.maxSubdomains", { max: MAX_SUBDOMAINS_PER_USER }),
+        t("dashboard.maxSubdomains", { max: subdomainLimit }),
         "error",
       );
       return;
@@ -289,13 +295,13 @@ const DashboardPage = () => {
                 <span className="font-bold">{t("dashboard.legacyNotice")}</span>
                 {""}—{" "}
                 {t("dashboard.legacyDesc", {
-                  count: subdomains.length,
-                  max: MAX_SUBDOMAINS_PER_USER,
+                  count: subdomainCount,
+                  max: subdomainLimit,
                 })}
               </span>
             ) : (
               <span className="text-bp-ink text-sm">
-                {t("dashboard.limitReached", { max: MAX_SUBDOMAINS_PER_USER })}
+                {t("dashboard.limitReached", { max: subdomainLimit })}
               </span>
             )}
           </div>
@@ -307,12 +313,12 @@ const DashboardPage = () => {
           subtitle={
             isLegacyUser
               ? t("dashboard.manageSubdomainsLegacy", {
-                  count: subdomains.length,
-                  max: MAX_SUBDOMAINS_PER_USER,
+                  count: subdomainCount,
+                  max: subdomainLimit,
                 })
               : t("dashboard.manageSubdomains", {
-                  count: subdomains.length,
-                  max: MAX_SUBDOMAINS_PER_USER,
+                  count: subdomainCount,
+                  max: subdomainLimit,
                 })
           }
           action={
@@ -326,7 +332,7 @@ const DashboardPage = () => {
                   ? t("dashboard.registrarUnavailable")
                   : hasReachedLimit
                     ? t("dashboard.maxSubdomains", {
-                        max: MAX_SUBDOMAINS_PER_USER,
+                        max: subdomainLimit,
                       })
                     : undefined
               }

@@ -11,7 +11,7 @@ export const DISCORD_INVITE_URL = "https://discord.gg/gK769bxq3x";
 // Domain Configuration
 export const DOMAIN_SUFFIX = ".is-an.ai";
 export const BASE_DOMAIN = "is-an.ai";
-export const MAX_SUBDOMAINS_PER_USER = 5;
+export const DEFAULT_SUBDOMAIN_LIMIT = 5;
 // Global service state
 export const REGISTRAR_AT_CAPACITY: boolean = false; // Toggle to disable new registrations globally
 
@@ -27,6 +27,7 @@ export const API_ENDPOINTS = {
   // Domain
   DOMAINS: "/v3/domain",
   MY_DOMAINS: "/v3/domain/my",
+  MY_DOMAIN_LIMIT: "/v3/domain/my/limit",
   DOMAIN_BY_ID: (id: string) => `/v3/domain/id/${id}`,
   DOMAIN_BY_NAME: (name: string) => `/v3/domain/name/${name}`,
   UPDATE_DOMAIN: (name: string) => `/v3/domain/${name}`,
