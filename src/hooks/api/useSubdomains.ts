@@ -10,6 +10,7 @@ export const subdomainKeys = {
   details: () => [...subdomainKeys.all, "detail"] as const,
   detail: (id: string) => [...subdomainKeys.details(), id] as const,
   my: () => [...subdomainKeys.all, "my"] as const,
+  myLimit: () => [...subdomainKeys.all, "my-limit"] as const,
   availability: (name: string) =>
     [...subdomainKeys.all, "availability", name] as const,
 };
@@ -19,6 +20,14 @@ export const useMySubdomains = () => {
   return useQuery({
     queryKey: subdomainKeys.my(),
     queryFn: () => apiClient.getMySubdomains(),
+    enabled: apiClient.isAuthenticated(),
+  });
+};
+
+export const useMySubdomainLimit = () => {
+  return useQuery({
+    queryKey: subdomainKeys.myLimit(),
+    queryFn: () => apiClient.getMySubdomainLimit(),
     enabled: apiClient.isAuthenticated(),
   });
 };
