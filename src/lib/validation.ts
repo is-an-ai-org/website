@@ -171,12 +171,20 @@ export const validateDNSRecords = (
   records: DNSRecord[],
 ): { isValid: boolean; errors: string[] } => {
   const errors: string[] = [];
+  const seen = new Set<string>();
 
   records.forEach((record, index) => {
     const validation = validateDNSRecord(record);
     if (!validation.isValid) {
       errors.push(`Record ${index + 1} (${record.type}): ${validation.error}`);
     }
+    const value =
+      typeof record.value === "string" ? record.value.trim() : record.value;
+    const key = JSON.stringify([record.type, value]);
+    if (seen.has(key)) {
+      errors.push(`Record ${index + 1} (${record.type}): Duplicate DNS record`);
+    }
+    seen.add(key);
   });
 
   return { isValid: errors.length === 0, errors };
